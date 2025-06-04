@@ -1,5 +1,12 @@
 <template>
-  <view>Home</view>
+  <!-- 轮播图区域 -->
+  <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" circular="true">
+    <swiper-item v-for="(item, index) in swiperList" :key="index">
+      <view class="swiper-item">
+        <image :src="item.image_src" mode=""></image>
+      </view>
+    </swiper-item>
+  </swiper>
 </template>
 
 <script>
@@ -31,4 +38,14 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+swiper {
+  height: 330rpx;
+
+  .swiper-item,
+  image {
+    width: 100%;
+    height: 100%;
+  }
+}
+</style>

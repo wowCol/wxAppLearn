@@ -8,7 +8,7 @@ import {
 
 uni.$http = $http
 
-$http.baseUrl = 'https://www.uinav.com'
+$http.baseUrl = 'https://api-hmugo-web.itheima.net'
 
 // 配置请求拦截器
 $http.beforeRequest = function(options) {
@@ -36,7 +36,7 @@ app.$mount()
 import {
   createSSRApp
 } from 'vue'
-import App from './App.vue'
+
 export function createApp() {
   const app = createSSRApp(App)
   return {
