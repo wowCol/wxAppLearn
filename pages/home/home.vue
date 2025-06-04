@@ -2,9 +2,9 @@
   <!-- 轮播图区域 -->
   <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" circular="true">
     <swiper-item v-for="(item, index) in swiperList" :key="index">
-      <view class="swiper-item">
+      <navigator class="swiper-item" :url="'/subpkg/goods_detail/goods_detail?goods_id=' + item.goods_id">
         <image :src="item.image_src" mode=""></image>
-      </view>
+      </navigator>
     </swiper-item>
   </swiper>
 </template>
@@ -25,14 +25,11 @@ export default {
       const { data: res } = await uni.$http.get('/api/public/v1/home/swiperdata');
       // 请求失败
       if (res.meta.status !== 200) {
-        return uni.showToast({
-          title: '数据请求失败',
-          duration: 1500,
-          icon: 'none'
-        });
+        return uni.$showMsg;
       }
 
       this.swiperList = res.message;
+      // uni.$showMsg('成功获得数据');
     }
   }
 };

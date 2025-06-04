@@ -22,6 +22,15 @@ $http.afterRequest = function() {
   uni.hideLoading()
 }
 
+// 配置全局信息提示
+uni.$showMsg = function(title = '数据请求错误!', duration = 1500) {
+  uni.showToast({
+    title,
+    duration,
+    icon: 'none'
+  })
+}
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'
