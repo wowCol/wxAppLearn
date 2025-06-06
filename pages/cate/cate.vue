@@ -1,5 +1,8 @@
 <template>
   <view>
+    <!-- 使用过自定义的搜索组件 -->
+    <my-search></my-search>
+
     <view class="scroll-view-container">
       <!-- 左侧滑动栏 -->
       <scroll-view class="left-scroll-view" scroll-y="true" :style="{ height: wh + 'px' }">
@@ -50,7 +53,8 @@ export default {
   onLoad() {
     const sysInfo = uni.getSystemInfoSync();
 
-    this.wh = sysInfo.windowHeight;
+    // 减去搜索框的高度
+    this.wh = sysInfo.windowHeight - 50;
 
     this.getCateList();
   },
