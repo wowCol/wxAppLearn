@@ -1,7 +1,7 @@
 <template>
   <view>
     <!-- 使用过自定义的搜索组件 -->
-    <my-search></my-search>
+    <my-search @click="gotoSearch"></my-search>
 
     <view class="scroll-view-container">
       <!-- 左侧滑动栏 -->
@@ -79,6 +79,11 @@ export default {
     gotGoodsList(item) {
       uni.navigateTo({
         url: '/subpkg/goods_list/goods_list?cid=' + item.cat_id
+      });
+    },
+    gotoSearch() {
+      uni.navigateTo({
+        url: '/subpkg/search/search'
       });
     }
   }
