@@ -18,17 +18,18 @@
         "path": "goods_detail/goods_detail"
       },
       {
-        "path" : "goods_list/goods_list",
-        "style" : 
-        {
-          "navigationBarTitleText" : ""
+        "path": "goods_list/goods_list",
+        "style": {
+          "navigationBarTitleText": "",
+          "onReachBottomDistance": 150,
+          "enablePullDownRefresh": true,
+          "backgroundColor": "#F8F8F8"
         }
       },
       {
-        "path" : "search/search",
-        "style" : 
-        {
-          "navigationBarTitleText" : ""
+        "path": "search/search",
+        "style": {
+          "navigationBarTitleText": ""
         }
       }
 
