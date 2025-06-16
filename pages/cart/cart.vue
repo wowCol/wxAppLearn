@@ -1,5 +1,5 @@
 <template>
-  <view>Cart</view>
+  <view>购物车组件</view>
 </template>
 
 <script>
