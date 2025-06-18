@@ -39,7 +39,27 @@
 </template>
 
 <script>
+// 调用辅助函数映射全局存储，使用时使用数组中的对应名称
+import { mapState, mapMutations, mapGetters } from 'vuex';
+
 export default {
+  computed: {
+    // 通过store中注册的modules名调用，然后在数组中映射需要的数据
+    ...mapState('m_cart', []),
+    ...mapGetters('m_cart', ['total'])
+  },
+  watch: {
+    // 定义监听器监听total值的变化
+    total: {
+      handler(newVal) {
+        const findResult = this.options.find((x) => x.text === '购物车');
+        if (findResult) {
+          findResult.info = newVal;
+        }
+      },
+      immediate: true
+    }
+  },
   data() {
     return {
       goods_info: {},
@@ -53,7 +73,7 @@ export default {
         {
           icon: 'cart',
           text: '购物车',
-          info: 2
+          info: 0
         }
       ],
       buttonGroup: [
@@ -75,6 +95,7 @@ export default {
     this.getGoodsDetail(goods_id);
   },
   methods: {
+    ...mapMutations('m_cart', ['addToCart']),
     async getGoodsDetail(goods_id) {
       const { data: res } = await uni.$http.get('/api/public/v1/goods/detail', { goods_id });
 
@@ -98,7 +119,23 @@ export default {
         });
       }
     },
-    buttonClick() {}
+    buttonClick(e) {
+      if (e.content.text === '加入购物车') {
+        // 购物车的数组，用来存储购物车中每个商品的信息对象
+        // { goods_id, goods_name, goods_price, goods_count, goods_small_logo, goods_state
+        const goods = {
+          goods_id: this.goods_info.goods_id,
+          goods_name: this.goods_info.goods_name,
+          goods_price: this.goods_info.goods_price,
+          goods_count: 1,
+          goods_small_logo: this.goods_info.goods_small_logo,
+          goods_state: true
+        };
+
+        // 调用addToCart方法
+        this.addToCart(goods);
+      }
+    }
   }
 };
 </script>

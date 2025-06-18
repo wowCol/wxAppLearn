@@ -67,7 +67,7 @@ export default {
     this.queryObj.pagenum = 1;
     this.total = 0;
     this.isLoading = false;
-    this, (goodsList = []);
+    this.goodsList = [];
 
     // 重新发起数据请求
     this.getGoodsList(() => uni.stopPullDownRefresh());
