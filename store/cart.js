@@ -38,7 +38,7 @@ export default {
       const findResult = state.cart.find((x) => x.goods_id === goods.goods_id);
 
       if (findResult) {
-        console.log(findResult);
+        // console.log(findResult);
         findResult.goods_count = goods.goods_count;
 
         this.commit('m_cart/saveToStorage');
@@ -50,15 +50,25 @@ export default {
 
       this.commit('m_cart/saveToStorage');
     },
+    // 更新购物车中所有商品的勾选状态
+    updateAllGoodsState(state, newState) {
+      state.cart.forEach(x => x.goods_state = newState);
+
+      this.commit('m_cart/saveToStorage');
+    }
   },
 
   getters: {
     total(state) {
-      let c = 0;
-      state.cart.forEach((x) => {
-        c += x.goods_count;
-      });
-      return c;
+      return state.cart.reduce((total, item) => total += item.goods_count, 0);
     },
+    checkedCount(state) {
+      return state.cart.filter(x => x.goods_state).reduce((total, item) => total += item.goods_count, 0);
+    },
+    // 已勾选的商品的总价
+    checkedGoodsAmount(state) {
+      return state.cart.filter(x => x.goods_state).reduce((total, item) => total += item.goods_count * item.goods_price,
+        0).toFixed(2);
+    }
   },
 };

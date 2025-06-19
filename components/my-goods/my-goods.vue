@@ -27,22 +27,22 @@ export default {
   props: {
     goods: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     showRadio: {
       type: Boolean,
       // 默认不显示
-      default: false
+      default: false,
     },
     showNum: {
       type: Boolean,
       // 默认不显示
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      defaultPic: 'https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png'
+      defaultPic: 'https://img3.doubanio.com/f/movie/8dd0c794499fe925ae2ae89ee30cd225750457b4/pics/movie/celebrity-default-medium.png',
     };
   },
   methods: {
@@ -50,23 +50,23 @@ export default {
     radioClickHandler() {
       this.$emit('radio-change', {
         goods_id: this.goods.goods_id,
-        goods_state: !this.goods.goods_state
+        goods_state: !this.goods.goods_state,
       });
     },
-    numChangeHandler() {
-      console.log(this.goods.goods_count);
+    numChangeHandler(val) {
+      // console.log(this.goods.goods_count);
       this.$emit('num-change', {
         goods_id: this.goods.goods_id,
-        goods_count: this.goods.goods_count + 0
+        goods_count: +val,
       });
-    }
+    },
   },
   filters: {
     // 把数字处理为带两位小数的数字
     tofixed(num) {
       return Number(num).toFixed(2);
-    }
-  }
+    },
+  },
 };
 </script>
 

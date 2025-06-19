@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="cart-content" v-if="cart.length">
     <!-- 收货地址组件 -->
     <my-address></my-address>
 
@@ -19,6 +19,13 @@
         </uni-swipe-action-item>
       </block>
     </uni-swipe-action>
+
+    <!-- 使用自定义的结算组件 -->
+    <my-settle></my-settle>
+  </view>
+  <view class="empty-cart" v-else>
+    <image src="/static/cart_empty@2x.png" class="empty-img"></image>
+    <text class="tip-text">空空如也~</text>
   </view>
 </template>
 
@@ -29,7 +36,7 @@ import { mapState, mapMutations } from 'vuex';
 export default {
   mixins: [badgeMix],
   computed: {
-    ...mapState('m_cart', ['cart'])
+    ...mapState('m_cart', ['cart']),
   },
   data() {
     return {
@@ -37,10 +44,10 @@ export default {
         {
           text: '删除',
           style: {
-            backgroundColor: '#c00000'
-          }
-        }
-      ]
+            backgroundColor: '#c00000',
+          },
+        },
+      ],
     };
   },
   methods: {
@@ -56,12 +63,16 @@ export default {
     swipeItemClickHandler(goods) {
       // console.log(goods.goods_id);
       this.removeGoodsById(goods.goods_id);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
+.cart-content {
+  padding-bottom: 50px;
+}
+
 .cart-title {
   height: 40px;
   display: flex;
@@ -72,6 +83,24 @@ export default {
   .cart-title-text {
     font-size: 14px;
     margin-left: 10px;
+  }
+}
+
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 150px;
+
+  .empty-img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .tip-text {
+    font-size: 12px;
+    color: gray;
+    margin-top: 15px;
   }
 }
 </style>
