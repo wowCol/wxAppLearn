@@ -5,7 +5,7 @@
     </view>
 
     <!-- 渲染收货信息的盒子 -->
-    <view class="address-info-box" v-else>
+    <view class="address-info-box" v-else @click="chooseAddress()">
       <view class="row1">
         <view class="row1-left">
           <view class="username">收货人：{{ address.userName }}</view>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 
 export default {
   name: 'my-address',
@@ -36,11 +36,7 @@ export default {
   },
   computed: {
     ...mapState('m_user', ['address']),
-    addStr() {
-      if (!this.address.provinceName) return '';
-
-      return `${this.address.provinceName}-${this.address.cityName}-${this.address.countyName}-${this.address.detailInfo}`;
-    }
+    ...mapGetters('m_user', ['addStr'])
   },
   methods: {
     ...mapMutations('m_user', ['updateAddress']),
@@ -51,6 +47,35 @@ export default {
 
       if (err === null && succ.errMsg === 'chooseAddress:ok') {
         this.updateAddress(succ);
+      }
+
+      if (err && (err.errMsg === 'chooseAddress:fail auth deny' || err.errMsg('chooseAddress:fail authorize no response'))) {
+        this.reAuth();
+      }
+    },
+    async reAuth() {
+      const [err2, confirmResult] = await uni.showModel({
+        content: '检测到您没打开地址权限，是否去设置打开？',
+        confirmText: '确认',
+        cancelText: '取消'
+      });
+
+      if (err2) return;
+
+      if (confirmResult.cancel) {
+        return uni.$showMsg('您取消了地址授权！');
+      }
+
+      if (confirmResult.confirm) {
+        return uni.openSetting({
+          success: (settingResult) => {
+            if (settingResult.authSetting['scope.address']) {
+              return uni.$showMsg('授权成功！请选择收货地址');
+            } else {
+              return uni.$showMsg('您取消了授权！');
+            }
+          }
+        });
       }
     }
   }
