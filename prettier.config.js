@@ -1,11 +1,11 @@
 // Prettier配置文档：https://prettier.io/docs/en/options.html
 module.exports = {
   printWidth: 180,
-  tabWidth: 2,
+  tabWidth: 4,
   useTabs: false,
   semi: true,
   singleQuote: true,
-  quoteProps: 'as-needed',
+  quoteProps: 'preserve',
   jsxSingleQuote: false,
   trailingComma: 'none',
   bracketSpacing: true,
@@ -17,12 +17,11 @@ module.exports = {
   endOfLine: 'lf',
   embeddedLanguageFormatting: 'auto',
   singleAttributePerLine: false,
-  //自定义文件后缀对应的parser
+  // 自定义文件后缀对应的parser
   parsers: {
-    '.js': 'javascript',
     '.nvue': 'vue',
     '.ux': 'vue',
     '.uvue': 'vue',
-    '.uts': 'typescript'
-  }
+    '.uts': 'typescript',
+  },
 };

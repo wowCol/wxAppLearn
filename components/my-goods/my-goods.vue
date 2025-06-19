@@ -14,7 +14,7 @@
         </view>
         <view class="goods-info-box">
           <view class="goods-price">¥{{ goods.goods_price | tofixed }}</view>
-          <uni-number-box :min="1" :value="goods.goods_count" v-if="showNum" @change="numChangeHandler"></uni-number-box>
+          <uni-number-box :min="1" :value="goods.goods_count" v-if="showNum" @change="numChangeHandler()"></uni-number-box>
         </view>
       </view>
     </view>
@@ -54,6 +54,7 @@ export default {
       });
     },
     numChangeHandler() {
+      console.log(this.goods.goods_count);
       this.$emit('num-change', {
         goods_id: this.goods.goods_id,
         goods_count: this.goods.goods_count + 0
