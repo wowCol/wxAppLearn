@@ -23,7 +23,10 @@ import { mapGetters, mapMutations, mapState } from 'vuex';
 export default {
   name: 'my-settle',
   data() {
-    return {};
+    return {
+      seconds: 3,
+      timer: null,
+    };
   },
   computed: {
     // 购物车模块
@@ -37,6 +40,7 @@ export default {
   },
   methods: {
     ...mapMutations('m_cart', ['updateAllGoodsState']),
+    ...mapMutations('m_user', ['updateRedirectInfo']),
     changeAllState() {
       this.updateAllGoodsState(!this.ifFullCheck);
     },
@@ -51,8 +55,43 @@ export default {
       }
 
       if (!this.token) {
-        return uni.$showMsg('请先登录！');
+        return this.delayNavigate();
       }
+    },
+    // 延时导航到my页面
+    delayNavigate() {
+      this.seconds = 3;
+      this.showTips(this.seconds);
+
+      this.timer = setInterval(() => {
+        this.seconds--;
+
+        if (this.seconds <= 0) {
+          clearInterval(this.timer);
+
+          uni.switchTab({
+            url: '/pages/my/my',
+            success: () => {
+              this.updateRedirectInfo({
+                openType: 'switchTab',
+                from: '/pages/cart/cart',
+              });
+            },
+          });
+
+          return;
+        }
+        this.showTips(this.seconds);
+      }, 1000);
+    },
+    // 展示倒计时的提示消息
+    showTips(n) {
+      uni.showToast({
+        icon: 'none',
+        title: '请登录后在结算！' + n + '秒之后自动跳转到登录页',
+        mask: true,
+        duration: 1500,
+      });
     },
   },
 };

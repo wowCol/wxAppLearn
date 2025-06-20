@@ -6,7 +6,8 @@ export default {
   state: () => ({
     address: JSON.parse(uni.getStorageSync('address') || '{}'),
     userinfo: JSON.parse(uni.getStorageSync('userinfo') || '{}'),
-    token: uni.getStorageSync('token')
+    token: uni.getStorageSync('token'),
+    redirectInfo: null
   }),
 
   // 方法
@@ -37,7 +38,10 @@ export default {
     // 持久化存储token
     saveTokenToStorage(state) {
       uni.setStorageSync('token', state.token);
-    }
+    },
+    updateRedirectInfo(state, info) {
+      state.redirectInfo = info
+    },
   },
 
   // 获取数据

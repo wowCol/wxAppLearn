@@ -7,15 +7,18 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'my-login',
   data() {
     return {};
   },
+  computed: {
+    ...mapState('m_user', ['redirectInfo']),
+  },
   methods: {
-    ...mapMutations('m_user', ['updateUserInfo', 'updateToken']),
+    ...mapMutations('m_user', ['updateUserInfo', 'updateToken', 'updateRedirectInfo']),
     async getToken(info) {
       // 获得code对应的值
       const [err, res] = await uni.login().catch((err) => err);
@@ -38,6 +41,8 @@ export default {
       // if (loginResult.meta.status !== 200) return uni.$showMsg('登录失败！');
 
       this.updateToken('Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIzLCJpYXQiOjE1NjQ3MzAwNzksImV4cCI6MTAwMTU2NDczMDA3OH0.YPt-XeLnjV-_1ITaXGY2FhxmCe4NvXuRnRB8OMCfnPo');
+
+      this.navigateBack();
     },
     getUserProfile() {
       uni.getUserProfile({
@@ -52,6 +57,16 @@ export default {
           return uni.$showMsg('您取消了登录授权');
         },
       });
+    },
+    navigateBack() {
+      if (this.redirectInfo && this.redirectInfo.openType === 'switchTab') {
+        uni.switchTab({
+          url: this.redirectInfo.from,
+          complete: () => {
+            this.updateRedirectInfo(null);
+          },
+        });
+      }
     },
   },
 };
