@@ -24,7 +24,7 @@ export default {
 
 <style>
 page,
-my-container {
+.my-container {
   height: 100%;
 }
 </style>

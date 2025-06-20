@@ -44,6 +44,7 @@ export default {
         desc: '你的授权信息',
         success: (res) => {
           // 将信息存到 vuex 中
+          res.userInfo.avatarUrl = '/static/avatar.jpg';
           this.updateUserInfo(res.userInfo);
           this.getToken(res);
         },
