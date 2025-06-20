@@ -57,6 +57,8 @@ export default {
       if (!this.token) {
         return this.delayNavigate();
       }
+
+      uni.$showMsg('确认商品购买');
     },
     // 延时导航到my页面
     delayNavigate() {
