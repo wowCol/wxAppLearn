@@ -1,5 +1,9 @@
 <template>
-  <view>My</view>
+  <view>
+    <my-login></my-login>
+
+    <my-userinfo></my-userinfo>
+  </view>
 </template>
 
 <script>
@@ -10,7 +14,7 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 };
 </script>
 
